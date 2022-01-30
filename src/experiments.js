@@ -6,7 +6,7 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 var { ExtensionSupport } = ChromeUtils.import('resource:///modules/ExtensionSupport.jsm');
 var { ExtensionParent } = ChromeUtils.import('resource://gre/modules/ExtensionParent.jsm');
 
-const EXTENSION_NAME = "full-address-column@lukasz.kosson.net";
+const EXTENSION_NAME = "original-to-column@peterfab.com";
 var extension = ExtensionParent.GlobalManager.getExtension(EXTENSION_NAME);
 
 // Implements the functions defined in the experiments section of schema.json.

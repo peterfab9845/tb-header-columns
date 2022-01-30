@@ -5,7 +5,7 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 var MSG_VIEW_FLAG_DUMMY = 0x20000000;
 
-const senderColumnHandler = {
+const originalToColumnHandler = {
   init(win) { this.win = win; },
   getCellText(row, col) { return this.isDummy(row) ? "" : this.getAddress(this.win.gDBView.getMsgHdrAt(row)); },
   getSortStringForRow(hdr) { return this.getAddress(hdr); },
@@ -14,21 +14,7 @@ const senderColumnHandler = {
   getRowProperties(row, props) {},
   getImageSrc(row, col) { return null; },
   getSortLongForRow(hdr) { return 0; },
-  getAddress(aHeader) { return aHeader.author.replace(/.*</, "").replace(/>.*/, ""); },
-  isDummy(row) { return (this.win.gDBView.getFlagsAt(row) & MSG_VIEW_FLAG_DUMMY) != 0; }
-};
-
-const recipientColumnHandler = {
-  init(win) { this.win = win; },
-  getCellText(row, col) { return this.isDummy(row) ? "" : this.getAddress(this.win.gDBView.getMsgHdrAt(row)); },
-  getSortStringForRow(hdr) { return this.getAddress(hdr); },
-  isString() { return true; },
-  getCellProperties(row, col, props) {},
-  getRowProperties(row, props) {},
-  getImageSrc(row, col) { return null; },
-  getSortLongForRow(hdr) { return 0; },
-  formatAddress(acc, val) { return (acc == "" ? "" : acc + ", ") + (val.includes(">") ? [...val.matchAll(/[^<]+(?=>)/g)].join(', ') : val); },
-  getAddress(aHeader) { return aHeader.recipients.split(',').reduce(this.formatAddress, ""); },
+  getAddress(aHeader) { return aHeader.getStringProperty("x-original-to"); },
   isDummy(row) { return (this.win.gDBView.getFlagsAt(row) & MSG_VIEW_FLAG_DUMMY) != 0; }
 };
 
@@ -44,10 +30,8 @@ const columnOverlay = {
 
   observe(aMsgFolder, aTopic, aData) {
     try {
-      senderColumnHandler.init(this.win);
-      recipientColumnHandler.init(this.win);
-      this.win.gDBView.addColumnHandler("senderAddressColumn", senderColumnHandler);
-      this.win.gDBView.addColumnHandler("recipientAddressColumn", recipientColumnHandler);
+      originalToColumnHandler.init(this.win);
+      this.win.gDBView.addColumnHandler("originalToColumn", originalToColumnHandler);
     } catch (ex) {
       console.error(ex);
       throw new Error("Cannot add column handler");
@@ -63,7 +47,7 @@ const columnOverlay = {
     treeCol.setAttribute("flex", "2");
     treeCol.setAttribute("closemenu", "none");
     treeCol.setAttribute("label", columnLabel);
-    treeCol.setAttribute("tooltiptext", "Full e-mail address");
+    treeCol.setAttribute("tooltiptext", "Original recipient address");
 
     const threadCols = win.document.getElementById("threadCols");
     threadCols.appendChild(treeCol);
@@ -87,8 +71,7 @@ const columnOverlay = {
   },
 
   addColumns(win) {
-    this.addColumn(win, "senderAddressColumn", "Sender (@)");
-    this.addColumn(win, "recipientAddressColumn", "Recipient (@)");
+    this.addColumn(win, "originalToColumn", "X-Original-To");
   },
 
   destroyColumn(columnId) {
@@ -98,8 +81,7 @@ const columnOverlay = {
   },
 
   destroyColumns() {
-    this.destroyColumn("senderAddressColumn");
-    this.destroyColumn("recipientAddressColumn");
+    this.destroyColumn("originalToColumn");
     Services.obs.removeObserver(this, "MsgCreateDBView");
   },
 };

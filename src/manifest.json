@@ -1,12 +1,12 @@
 {
   "manifest_version": 2,
-  "name": "Full Address column",
-  "description": "Adds a full sender and recipient e-mail column to message list panel",
-  "version": "1.0.3",
-  "author": "Łukasz Kosson",
+  "name": "X-Original-To column",
+  "description": "Adds a column for the X-Original-To header to message list panel",
+  "version": "0.1",
+  "author": "Peter Fabinski",
   "applications": {
     "gecko": {
-      "id": "full-address-column@lukasz.kosson.net",
+      "id": "original-to-column@peterfab.com",
       "strict_min_version": "68.0a1",
       "strict_max_version": "91.*"
     }
@@ -30,8 +30,5 @@
     "scripts": [
       "background.js"
     ]
-  },
-  "icons": {
-    "48": "icon48.png"
   }
 }
