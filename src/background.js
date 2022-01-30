@@ -3,12 +3,12 @@
 /* globals browser */
 
 var init = async () => {
-  browser.FAC.addWindowListener();
+  browser.CustomColumns.addWindowListener();
 };
 init();
 
 var setup = async (details) => {
-  browser.FAC.addCustomDBHeader();
+  browser.CustomColumns.addCustomDBHeader();
 };
 messenger.runtime.onInstalled.addListener(setup);
 

@@ -86,7 +86,7 @@ const columnOverlay = {
   },
 };
 
-var FACHeaderView = {
+var CustomColumnsHeaderView = {
   init(win) {
     this.win = win;
     columnOverlay.init(win);

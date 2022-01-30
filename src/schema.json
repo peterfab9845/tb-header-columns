@@ -1,6 +1,6 @@
 [
   {
-    "namespace": "FAC",
+    "namespace": "CustomColumns",
     "functions": [
       {
         "name": "addWindowListener",

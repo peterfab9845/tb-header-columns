@@ -10,7 +10,7 @@ const EXTENSION_NAME = "original-to-column@peterfab.com";
 var extension = ExtensionParent.GlobalManager.getExtension(EXTENSION_NAME);
 
 // Implements the functions defined in the experiments section of schema.json.
-var FAC = class extends ExtensionCommon.ExtensionAPI {
+var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
   onStartup() {
   }
 
@@ -26,7 +26,7 @@ var FAC = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     context.callOnClose(this);
     return {
-      FAC: {
+      CustomColumns: {
         addCustomDBHeader() {
           // Add the X-Original-To header to customDBHeaders
           let customDBHeaders = Services.prefs.getStringPref("mailnews.customDBHeaders");
@@ -58,12 +58,12 @@ var FAC = class extends ExtensionCommon.ExtensionAPI {
 };
 
 function paint(win) {
-  win.FAC = {};
-  Services.scriptloader.loadSubScript(extension.getURL("customcol.js"), win.FAC);
-  win.FAC.FACHeaderView.init(win);
+  win.CustomColumns = {};
+  Services.scriptloader.loadSubScript(extension.getURL("customcol.js"), win.CustomColumns);
+  win.CustomColumns.CustomColumnsHeaderView.init(win);
 }
 
 function unpaint(win) {
-  win.FAC.FACHeaderView.destroy();
-  delete win.FAC;
+  win.CustomColumns.CustomColumnsHeaderView.destroy();
+  delete win.CustomColumns;
 }

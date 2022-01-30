@@ -13,17 +13,19 @@
     }
   },
   "experiment_apis": {
-    "FAC": {
+    "CustomColumns": {
       "schema": "schema.json",
       "parent": {
         "scopes": [
           "addon_parent"
         ],
         "paths": [
-          ["FAC"]
+          ["CustomColumns"]
         ],
         "script": "experiments.js",
-        "events": ["startup"]
+        "events": [
+            "startup"
+        ]
       }
     }
   },
