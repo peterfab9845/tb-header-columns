@@ -27,7 +27,7 @@ var FAC = class extends ExtensionCommon.ExtensionAPI {
     context.callOnClose(this);
     return {
       FAC: {
-        addCustomDBHeader(details) {
+        addCustomDBHeader() {
           // Add the X-Original-To header to customDBHeaders
           let customDBHeaders = Services.prefs.getStringPref("mailnews.customDBHeaders");
           if (!customDBHeaders.toLowerCase().includes("x-original-to")) {
@@ -36,7 +36,7 @@ var FAC = class extends ExtensionCommon.ExtensionAPI {
             Services.prefs.setStringPref("mailnews.customDBHeaders", customDBHeaders);
           }
         },
-        addWindowListener(dummy) {
+        addWindowListener() {
           // Adds a listener to detect new windows.
           ExtensionSupport.registerWindowListener(EXTENSION_NAME, {
             chromeURLs: ["chrome://messenger/content/messenger.xul",
