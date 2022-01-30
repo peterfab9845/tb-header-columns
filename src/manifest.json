@@ -4,6 +4,7 @@
   "description": "Adds a column for the X-Original-To header to message list panel",
   "version": "0.1",
   "author": "Peter Fabinski",
+  "homepage_url": "https://github.com/peterfab9845/original-to-column",
   "applications": {
     "gecko": {
       "id": "original-to-column@peterfab.com",
