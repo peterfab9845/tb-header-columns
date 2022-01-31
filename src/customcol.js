@@ -47,7 +47,7 @@ const columnOverlay = {
     treeCol.setAttribute("flex", "2");
     treeCol.setAttribute("closemenu", "none");
     treeCol.setAttribute("label", columnLabel);
-    treeCol.setAttribute("tooltiptext", "Original recipient address");
+    treeCol.setAttribute("tooltiptext", "Sort by original recipient address");
 
     const threadCols = win.document.getElementById("threadCols");
     threadCols.appendChild(treeCol);
