@@ -10,7 +10,7 @@ async function addCustomDBHeader() {
   let customDBHeaders = await messenger.LegacyPrefs.getPref("mailnews.customDBHeaders", "");
   if (!customDBHeaders.toLowerCase().includes("x-original-to")) {
     // the DB entry is case-insensitive, all are used in lowercase
-    customDBHeaders += " X-Original-To";
+    customDBHeaders += " x-original-to";
     await messenger.LegacyPrefs.setPref("mailnews.customDBHeaders", customDBHeaders);
   }
 }
@@ -25,7 +25,7 @@ messenger.runtime.onInstalled.addListener(async (details) => {
 async function removeCustomDBHeader() {
   // Remove the X-Original-To header from customDBHeaders
   let customDBHeaders = await messenger.LegacyPrefs.getPref("mailnews.customDBHeaders", "");
-  customDBHeaders = customDBHeaders.replace(/x-original-to/i, "");
+  customDBHeaders = customDBHeaders.replace(/ *x-original-to/i, "");
   await messenger.LegacyPrefs.setPref("mailnews.customDBHeaders", customDBHeaders);
 }
 messenger.management.onUninstalled.addListener(async (info) => {
