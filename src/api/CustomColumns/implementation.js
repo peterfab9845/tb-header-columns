@@ -16,26 +16,23 @@ var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
 
   onShutdown(isAppShutdown) {
     if (isAppShutdown) return;
+
     // Looks like we got uninstalled. Maybe a new version will be installed now.
     // Due to new versions not taking effect (https://bugzilla.mozilla.org/show_bug.cgi?id=1634348)
     // we invalidate the startup cache. That's the same effect as starting with -purgecaches
     // (or deleting the startupCache directory from the profile).
     Services.obs.notifyObservers(null, "startupcache-invalidate");
+
+    // Remove the X-Original-To header from customDBHeaders
+    let customDBHeaders = Services.prefs.getStringPref("mailnews.customDBHeaders");
+    customDBHeaders = customDBHeaders.replace(/ *x-original-to/i, "");
+    Services.prefs.setStringPref("mailnews.customDBHeaders", customDBHeaders);
   }
 
   getAPI(context) {
     context.callOnClose(this);
     return {
       CustomColumns: {
-        addCustomDBHeader() {
-          // Add the X-Original-To header to customDBHeaders
-          let customDBHeaders = Services.prefs.getStringPref("mailnews.customDBHeaders");
-          if (!customDBHeaders.toLowerCase().includes("x-original-to")) {
-            // the DB entry is case-insensitive, all are used in lowercase
-            customDBHeaders += " X-Original-To";
-            Services.prefs.setStringPref("mailnews.customDBHeaders", customDBHeaders);
-          }
-        },
         addWindowListener() {
           // Adds a listener to detect new windows.
           ExtensionSupport.registerWindowListener(EXTENSION_NAME, {
@@ -59,7 +56,7 @@ var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
 
 function paint(win) {
   win.CustomColumns = {};
-  Services.scriptloader.loadSubScript(extension.getURL("customcol.js"), win.CustomColumns);
+  Services.scriptloader.loadSubScript(extension.getURL("scripts/customcol.js"), win.CustomColumns);
   win.CustomColumns.CustomColumnsHeaderView.init(win);
 }
 

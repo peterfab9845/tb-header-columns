@@ -13,25 +13,25 @@
     }
   },
   "experiment_apis": {
-    "CustomColumns": {
-      "schema": "schema.json",
+    "LegacyPrefs": {
+      "schema": "api/LegacyPrefs/schema.json",
       "parent": {
-        "scopes": [
-          "addon_parent"
-        ],
-        "paths": [
-          ["CustomColumns"]
-        ],
-        "script": "experiments.js",
-        "events": [
-            "startup"
-        ]
+        "scopes": ["addon_parent"],
+        "paths": [["LegacyPrefs"]],
+        "script": "api/LegacyPrefs/implementation.js"
+      }
+    },
+    "CustomColumns": {
+      "schema": "api/CustomColumns/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["CustomColumns"]],
+        "script": "api/CustomColumns/implementation.js",
+        "events": ["startup"]
       }
     }
   },
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "scripts": ["background.js"]
   }
 }
