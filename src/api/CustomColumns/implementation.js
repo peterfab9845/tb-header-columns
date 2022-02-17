@@ -2,6 +2,7 @@
 // GNU General Public License, version 3.0.
 
 "use strict";
+
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 var { ExtensionSupport } = ChromeUtils.import('resource:///modules/ExtensionSupport.jsm');
 var { ExtensionParent } = ChromeUtils.import('resource://gre/modules/ExtensionParent.jsm');
@@ -11,7 +12,7 @@ var extension = ExtensionParent.GlobalManager.getExtension(EXTENSION_NAME);
 
 const MSG_VIEW_FLAG_DUMMY = 0x20000000; // from DBViewWrapper.jsm
 
-var columnList = [];
+var columnList = []; // list of columns to be added
 
 // Construct a column handler for the given header name
 function ColumnHandler(headerName, isNumeric) {
@@ -107,8 +108,10 @@ var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
         addWindowListener() {
           // Adds a listener to detect new windows.
           ExtensionSupport.registerWindowListener(EXTENSION_NAME, {
-            chromeURLs: ["chrome://messenger/content/messenger.xul",
-                         "chrome://messenger/content/messenger.xhtml"],
+            chromeURLs: [
+              "chrome://messenger/content/messenger.xul",
+              "chrome://messenger/content/messenger.xhtml"
+            ],
             onLoadWindow: paint,
             onUnloadWindow: unpaint,
           });

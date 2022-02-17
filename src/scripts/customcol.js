@@ -1,5 +1,6 @@
 // This Source Code Form is subject to the terms of the
 // GNU General Public License, version 3.0.
+
 var { AppConstants } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
@@ -83,7 +84,7 @@ var CustomColumnsHeaderView = {
 
     // Usually the column handler is added when the window loads.
     // In our setup it's added later and we may miss the first notification.
-    // So we fire one ourserves.
+    // So we fire one ourselves.
     if (win.gDBView && win.document.documentElement.getAttribute("windowtype") == "mail:3pane") {
       Services.obs.notifyObservers(null, "MsgCreateDBView");
     }
