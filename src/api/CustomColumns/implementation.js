@@ -31,8 +31,9 @@ function ColumnHandler(headerName, isNumeric) {
     // that the binary value of least significant 31 bits of an IEEE-754 float
     // has an ordered correspondence with the absolute magnitude of the number.
 
-    // Sort non-numbers before numbers
     let val = parseFloat(this.getText(aHdr));
+
+    // Sort non-numbers before numbers
     if (!isFinite(val)) {
       // 0 can only result from 0xffffffff, which corresponds to one of the
       // many possible representations of NaN. This one appears unused.
