@@ -21,6 +21,14 @@
         "script": "api/LegacyPrefs/implementation.js"
       }
     },
+    "ex_runtime": {
+      "schema": "api/ex_runtime/api.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["ex_runtime"]],
+        "script": "api/ex_runtime/parent.js"
+      }
+    },
     "CustomColumns": {
       "schema": "api/CustomColumns/schema.json",
       "parent": {

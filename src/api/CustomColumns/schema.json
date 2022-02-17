@@ -8,7 +8,41 @@
         "description": "Adds a listener for 3pane windows",
         "async": false,
         "parameters": []
+      },
+      {
+        "name": "registerColumn",
+        "type": "function",
+        "description": "Registers a custom column",
+        "async": false,
+        "parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "The ID for the column element. Must be unique."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "description": "The label for the column header."
+          },
+          {
+            "name": "tooltip",
+            "type": "string",
+            "description": "The on-hover tooltip for the column header."
+          },
+          {
+            "name": "headerName",
+            "type": "string",
+            "description": "The name of the header to retrieve."
+          },
+          {
+            "name": "isNumeric",
+            "type": "boolean",
+            "description": "True if the header should be sorted numerically."
+          }
+        ]
       }
     ]
   }
 ]
+

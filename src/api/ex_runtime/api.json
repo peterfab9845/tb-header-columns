@@ -1,0 +1,14 @@
+[
+  {
+    "namespace": "ex_runtime",
+    "description": "Provides additional features to interact with the runtime",
+    "events": [
+      {
+        "name": "onDisable",
+        "description": "An event that triggers when the add-on is about to get unloaded for an indetermined amount of time (usually, due to the add-on being disabled by the user or uninstalled). [currently not implemented: Event listeners will execute to their completion and may return a promise to further delay the unload until that promise resolved. Note that implementations may impose a short time limit to ensure the add-on actually unloads, it is intentionally impossible to prevent the add-on from becoming disabled.]",
+        "type": "function",
+        "parameters": []
+      }
+    ]
+  }
+]

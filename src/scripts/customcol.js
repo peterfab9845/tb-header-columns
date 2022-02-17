@@ -3,21 +3,6 @@
 var { AppConstants } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
-var MSG_VIEW_FLAG_DUMMY = 0x20000000;
-
-const originalToColumnHandler = {
-  init(win) { this.win = win; },
-  getCellText(row, col) { return this.isDummy(row) ? "" : this.getAddress(this.win.gDBView.getMsgHdrAt(row)); },
-  getSortStringForRow(hdr) { return this.getAddress(hdr); },
-  isString() { return true; },
-  getCellProperties(row, col, props) {},
-  getRowProperties(row, props) {},
-  getImageSrc(row, col) { return null; },
-  getSortLongForRow(hdr) { return 0; },
-  getAddress(aHeader) { return aHeader.getStringProperty("x-original-to"); },
-  isDummy(row) { return (this.win.gDBView.getFlagsAt(row) & MSG_VIEW_FLAG_DUMMY) != 0; }
-};
-
 const columnOverlay = {
   init(win) {
     this.win = win;
@@ -29,16 +14,18 @@ const columnOverlay = {
   },
 
   observe(aMsgFolder, aTopic, aData) {
-    try {
-      originalToColumnHandler.init(this.win);
-      this.win.gDBView.addColumnHandler("originalToColumn", originalToColumnHandler);
-    } catch (ex) {
-      console.error(ex);
-      throw new Error("Cannot add column handler");
+    for (const col of columnList) {
+      try {
+        col.handler.init(this.win);
+        this.win.gDBView.addColumnHandler(col.id, col.handler);
+      } catch (ex) {
+        console.error(ex);
+        throw new Error(`Cannot add column handler for column ID ${col.id}`);
+      }
     }
   },
 
-  addColumn(win, columnId, columnLabel) {
+  addColumn(win, columnId, columnLabel, columnTooltip) {
     if (win.document.getElementById(columnId)) return;
 
     const treeCol = win.document.createXULElement("treecol");
@@ -47,7 +34,7 @@ const columnOverlay = {
     treeCol.setAttribute("flex", "2");
     treeCol.setAttribute("closemenu", "none");
     treeCol.setAttribute("label", columnLabel);
-    treeCol.setAttribute("tooltiptext", "Sort by original recipient address");
+    treeCol.setAttribute("tooltiptext", columnTooltip);
 
     const threadCols = win.document.getElementById("threadCols");
     threadCols.appendChild(treeCol);
@@ -66,12 +53,13 @@ const columnOverlay = {
         treeCol.ordinal = value;
       }
     }
-
-    Services.obs.addObserver(this, "MsgCreateDBView", false);
   },
 
   addColumns(win) {
-    this.addColumn(win, "originalToColumn", "X-Original-To");
+    for (const col of columnList) {
+      this.addColumn(win, col.id, col.label, col.tooltip);
+    }
+    Services.obs.addObserver(this, "MsgCreateDBView", false);
   },
 
   destroyColumn(columnId) {
@@ -81,7 +69,9 @@ const columnOverlay = {
   },
 
   destroyColumns() {
-    this.destroyColumn("originalToColumn");
+    for (const col of columnList) {
+      this.destroyColumn(col.id);
+    }
     Services.obs.removeObserver(this, "MsgCreateDBView");
   },
 };
