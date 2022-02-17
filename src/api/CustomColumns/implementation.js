@@ -139,7 +139,7 @@ var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
 
 function paint(win) {
   win.CustomColumns = {};
-  Services.scriptloader.loadSubScript(extension.getURL("scripts/customcol.js"), win.CustomColumns);
+  Services.scriptloader.loadSubScript(extension.getURL("api/CustomColumns/customcol.js"), win.CustomColumns);
   win.CustomColumns.columnList = columnList;
   win.CustomColumns.CustomColumnsHeaderView.init(win);
 }
