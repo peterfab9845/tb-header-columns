@@ -90,6 +90,8 @@ function ColumnHandler(headerName, isNumeric) {
 // Implements the functions defined in the experiments section of schema.json.
 var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
   onStartup() {
+    // don't actually care about startup, just using the startup event so that
+    // the experiment gets loaded
   }
 
   onShutdown(isAppShutdown) {
