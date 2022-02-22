@@ -15,7 +15,7 @@ const MSG_VIEW_FLAG_DUMMY = 0x20000000; // from DBViewWrapper.jsm
 var columnList = []; // list of columns to be added
 
 // Construct a column handler for the given header name
-function ColumnHandler(headerName, isNumeric) {
+function ColumnHandler(headerName, sortNumeric) {
   // access to the window object
   this.init = function(win) { this.win = win; };
 
@@ -62,7 +62,7 @@ function ColumnHandler(headerName, isNumeric) {
     // the resulting mask with the original value to do #1 and #2 simultaneously.
     return bits ^ ((bits >> 31) | (1 << 31));
   };
-  this.isString = function() { return !isNumeric; };
+  this.isString = function() { return !sortNumeric; };
 
   // functions inherited from nsITreeView
   this.getRowProperties = function(index) { return ""; };
@@ -119,8 +119,8 @@ var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
             onUnloadWindow: unpaint,
           });
         },
-        registerColumn(id, label, tooltip, headerName, isNumeric) {
-          let handler = new ColumnHandler(headerName, isNumeric);
+        registerColumn(id, label, tooltip, headerName, sortNumeric) {
+          let handler = new ColumnHandler(headerName, sortNumeric);
           columnList.push({
             "id": id,
             "label": label,
