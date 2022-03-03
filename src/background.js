@@ -1,12 +1,9 @@
 "use strict";
 
 async function init() {
-  let headerNames = ["X-Original-To"];
-  for (const name of headerNames) {
-    await addCustomDBHeader(name);
-    messenger.ex_runtime.onDisable.addListener(removeCustomDBHeader.bind(null, name));
-    messenger.CustomColumns.registerColumn(`headerCol${name}`, name, `Sort by ${name} header`, name, false);
-  }
+  await addCustomDBHeader("X-Original-To");
+  messenger.ex_runtime.onDisable.addListener(removeCustomDBHeader.bind(null, "X-Original-To"));
+  messenger.CustomColumns.registerColumn("originalToColumn", "X-Original-To", "Sort by X-Original-To header", "X-Original-To", false);
 
   messenger.CustomColumns.addWindowListener(); // this has to come last, TODO make runtime add/remove possible
 }
