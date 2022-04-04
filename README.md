@@ -2,6 +2,9 @@
 This addon adds a new column called X-Original-To in the message list which shows the original recipient address of the message (the contents of the X-Original-To header).
 This can be useful for systems with catch-all email addresses.
 
+## Installation
+Install from the [Mozilla add-ons page](https://addons.thunderbird.net/en-US/thunderbird/addon/x-original-to-column/), or use `build.sh` to produce an unsigned XPI file to install manually.
+
 ## Usage
 The new column can be selected as soon as the addon has been installed, and all new messages will automatically have their X-Original-To header recorded.
 
