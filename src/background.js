@@ -3,9 +3,9 @@
 async function init() {
   await addCustomDBHeader("X-Original-To");
   messenger.ex_runtime.onDisable.addListener(removeCustomDBHeader.bind(null, "X-Original-To"));
-  messenger.CustomColumns.registerColumn("originalToColumn", "X-Original-To", "Sort by X-Original-To header", "X-Original-To", false);
+  messenger.HeaderColumns.registerColumn("originalToColumn", "X-Original-To", "Sort by X-Original-To header", "X-Original-To", false);
 
-  messenger.CustomColumns.addWindowListener(); // this has to come last, TODO make runtime add/remove possible
+  messenger.HeaderColumns.addWindowListener(); // this has to come last, TODO make runtime add/remove possible
 }
 init();
 

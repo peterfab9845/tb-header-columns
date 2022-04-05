@@ -28,12 +28,12 @@
         "script": "api/ex_runtime/parent.js"
       }
     },
-    "CustomColumns": {
-      "schema": "api/CustomColumns/schema.json",
+    "HeaderColumns": {
+      "schema": "api/HeaderColumns/schema.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "paths": [["CustomColumns"]],
-        "script": "api/CustomColumns/implementation.js",
+        "paths": [["HeaderColumns"]],
+        "script": "api/HeaderColumns/implementation.js",
         "events": ["startup"]
       }
     }

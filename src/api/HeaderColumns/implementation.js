@@ -88,7 +88,7 @@ function ColumnHandler(headerName, sortNumeric) {
 }
 
 // Implements the functions defined in the experiments section of schema.json.
-var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
+var HeaderColumns = class extends ExtensionCommon.ExtensionAPI {
   onStartup() {
     // don't actually care about startup, just using the startup event so that
     // the experiment gets loaded
@@ -107,7 +107,7 @@ var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     context.callOnClose(this);
     return {
-      CustomColumns: {
+      HeaderColumns: {
         addWindowListener() {
           // Adds a listener to detect new windows.
           ExtensionSupport.registerWindowListener(EXTENSION_NAME, {
@@ -141,14 +141,14 @@ var CustomColumns = class extends ExtensionCommon.ExtensionAPI {
 };
 
 function paint(win) {
-  win.CustomColumns = {};
-  Services.scriptloader.loadSubScript(extension.getURL("api/CustomColumns/customcol.js"), win.CustomColumns);
-  win.CustomColumns.columnList = columnList;
-  win.CustomColumns.CustomColumnsHeaderView.init(win);
+  win.HeaderColumns = {};
+  Services.scriptloader.loadSubScript(extension.getURL("api/HeaderColumns/customcol.js"), win.HeaderColumns);
+  win.HeaderColumns.columnList = columnList;
+  win.HeaderColumns.HeaderColumnsView.init(win);
 }
 
 function unpaint(win) {
-  win.CustomColumns.CustomColumnsHeaderView.destroy();
-  delete win.CustomColumns;
+  win.HeaderColumns.HeaderColumnsView.destroy();
+  delete win.HeaderColumns;
 }
 
