@@ -1,6 +1,123 @@
 [
   {
     "namespace": "HeaderColumns",
+    "types": [
+      {
+        "id": "treeNode",
+        "choices": [
+          {
+            "type": "object",
+            "properties": {
+              "nodeType": {
+                "type": "string",
+                "enum": [
+                  "literal"
+                ]
+              },
+              "literalString": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nodeType": {
+                "type": "string",
+                "enum": [
+                  "header"
+                ]
+              },
+              "headerName": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nodeType": {
+                "type": "string",
+                "enum": [
+                  "replace"
+                ]
+              },
+              "target": {
+                "type": "string"
+              },
+              "replacement": {
+                "type": "string"
+              },
+              "replaceAll": {
+                "type": "boolean"
+              },
+              "child": {
+                "$ref": "treeNode"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nodeType": {
+                "type": "string",
+                "enum": [
+                  "regex"
+                ]
+              },
+              "pattern": {
+                "type": "string"
+              },
+              "flags": {
+                "type": "string"
+              },
+              "replacement": {
+                "type": "string"
+              },
+              "child": {
+                "$ref": "treeNode"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nodeType": {
+                "type": "string",
+                "enum": [
+                  "concat"
+                ]
+              },
+              "children": {
+                "type": "array",
+                "items": {
+                  "$ref": "treeNode"
+                },
+                "minItems": 1
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nodeType": {
+                "type": "string",
+                "enum": [
+                  "first"
+                ]
+              },
+              "children": {
+                "type": "array",
+                "items": {
+                  "$ref": "treeNode"
+                },
+                "minItems": 1
+              }
+            }
+          }
+        ]
+      }
+    ],
     "functions": [
       {
         "name": "addWindowListener",
@@ -31,9 +148,10 @@
             "description": "The on-hover tooltip for the column header."
           },
           {
-            "name": "headerName",
-            "type": "string",
-            "description": "The name of the header to retrieve."
+            "name": "parseTree",
+            "type": "object",
+            "$ref": "treeNode",
+            "description": "The tree defining how the column content should be created."
           },
           {
             "name": "sortNumeric",
@@ -45,4 +163,3 @@
     ]
   }
 ]
-

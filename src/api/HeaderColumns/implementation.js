@@ -15,7 +15,7 @@ const MSG_VIEW_FLAG_DUMMY = 0x20000000; // from DBViewWrapper.jsm
 var columnList = []; // list of columns to be added
 
 // Construct a column handler for the given header name
-function ColumnHandler(headerName, sortNumeric) {
+function ColumnHandler(parseTree, sortNumeric) {
   // access to the window object
   this.init = function(win) { this.win = win; };
 
@@ -31,6 +31,7 @@ function ColumnHandler(headerName, sortNumeric) {
     // that the binary value of least significant 31 bits of an IEEE-754 float
     // has an ordered correspondence with the absolute magnitude of the number.
 
+    // First get the float value
     let val = parseFloat(this.getText(aHdr));
 
     // Sort non-numbers before numbers
@@ -81,10 +82,43 @@ function ColumnHandler(headerName, sortNumeric) {
   // local functions
   this.isDummy = function(row) { return (this.win.gDBView.getFlagsAt(row) & MSG_VIEW_FLAG_DUMMY) != 0; };
   this.getText = function(aHdr) {
-    // The desired property must be stored in the message database, which is
-    // controlled by mailnews.customDBHeaders preference.
-    return aHdr.getStringProperty(headerName.toLowerCase());
+    return this.parse(parseTree, aHdr);
   };
+  this.parse = function(node, aHdr) {
+    // Recursively parse the tree to create the column content.
+    switch (node.nodeType) {
+      case "literal":
+        return node.literalString;
+      case "header":
+        // The desired headers must be stored in the message database, which is
+        // controlled by mailnews.customDBHeaders preference.
+        // getStringProperty returns "" if nothing is found.
+        return aHdr.getStringProperty(node.headerName.toLowerCase());
+      case "replace":
+        if (node.replaceAll) {
+          return this.parse(node.child, aHdr).replace(node.target, node.replacement);
+        } else {
+          return this.parse(node.child, aHdr).replaceAll(node.target, node.replacement);
+        }
+      case "regex":
+        let re = new RegExp(node.pattern, node.flags); // potential errors
+        return this.parse(node.child, aHdr).replace(re, node.replacement);
+      case "concat":
+        return node.children.map((child) => this.parse(child, aHdr)).join('');
+      case "first":
+        for (const child of node.children) {
+          let childResult = this.parse(child, aHdr);
+          if (childResult != "") {
+            return childResult;
+          }
+        }
+        return "";
+      default:
+        console.log(`HeaderColumns: Unsupported node type '${node.nodeType}'.`);
+        return "";
+    }
+    return "";
+  }
 }
 
 // Implements the functions defined in the experiments section of schema.json.
@@ -119,8 +153,8 @@ var HeaderColumns = class extends ExtensionCommon.ExtensionAPI {
             onUnloadWindow: unpaint,
           });
         },
-        registerColumn(id, label, tooltip, headerName, sortNumeric) {
-          let handler = new ColumnHandler(headerName, sortNumeric);
+        registerColumn(id, label, tooltip, parseTree, sortNumeric) {
+          let handler = new ColumnHandler(parseTree, sortNumeric);
           columnList.push({
             "id": id,
             "label": label,
