@@ -12,7 +12,7 @@ var extension = ExtensionParent.GlobalManager.getExtension(EXTENSION_NAME);
 
 const MSG_VIEW_FLAG_DUMMY = 0x20000000; // from DBViewWrapper.jsm
 
-var columnList = []; // list of columns to be added
+var managedColumns = new Map(); // list of columns to be added
 
 // Construct a column handler for the given header name
 function ColumnHandler(parseTree, sortNumeric) {
@@ -155,8 +155,7 @@ var HeaderColumns = class extends ExtensionCommon.ExtensionAPI {
         },
         registerColumn(id, label, tooltip, parseTree, sortNumeric) {
           let handler = new ColumnHandler(parseTree, sortNumeric);
-          columnList.push({
-            "id": id,
+          managedColumns.set(id, {
             "label": label,
             "tooltip": tooltip,
             "handler": handler
@@ -177,7 +176,7 @@ var HeaderColumns = class extends ExtensionCommon.ExtensionAPI {
 function paint(win) {
   win.HeaderColumns = {};
   Services.scriptloader.loadSubScript(extension.getURL("api/HeaderColumns/customcol.js"), win.HeaderColumns);
-  win.HeaderColumns.columnList = columnList;
+  win.HeaderColumns.managedColumns = managedColumns;
   win.HeaderColumns.HeaderColumnsView.init(win);
 }
 

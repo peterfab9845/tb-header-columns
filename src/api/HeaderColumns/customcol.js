@@ -19,13 +19,13 @@ const columnOverlay = {
   observe(aMsgFolder, aTopic, aData) {
     // Register the column handlers to be used by the column elements.
     // No need to remove old handlers here; they can just be overwritten.
-    for (const col of columnList) {
+    for (const [id, col] of managedColumns) {
       try {
         col.handler.init(this.win);
-        this.win.gDBView.addColumnHandler(col.id, col.handler);
+        this.win.gDBView.addColumnHandler(id, col.handler);
       } catch (ex) {
         console.error(ex);
-        throw new Error(`Cannot add column handler for column ID ${col.id}`);
+        throw new Error(`Cannot add column handler for column ID ${id}`);
       }
     }
   },
@@ -64,8 +64,8 @@ const columnOverlay = {
   },
 
   addColumns(win) {
-    for (const col of columnList) {
-      this.addColumn(win, col.id, col.label, col.tooltip);
+    for (const [id, col] of managedColumns) {
+      this.addColumn(win, id, col.label, col.tooltip);
     }
   },
 
@@ -77,8 +77,8 @@ const columnOverlay = {
   },
 
   destroyColumns() {
-    for (const col of columnList) {
-      this.destroyColumn(col.id);
+    for (const id of managedColumns.keys()) {
+      this.destroyColumn(id);
     }
   },
 };
