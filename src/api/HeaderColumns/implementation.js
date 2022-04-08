@@ -114,7 +114,7 @@ function ColumnHandler(parseTree, sortNumeric) {
         }
         return "";
       default:
-        console.log(`HeaderColumns: Unsupported node type '${node.nodeType}'.`);
+        console.error(`HeaderColumns: Unsupported node type '${node.nodeType}'.`);
         return "";
     }
     return "";
