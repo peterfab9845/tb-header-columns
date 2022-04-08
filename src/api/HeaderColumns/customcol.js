@@ -21,8 +21,11 @@ const columnOverlay = {
     // No need to remove old handlers here; they can just be overwritten.
     for (const [id, col] of managedColumns) {
       try {
-        col.handler.init(this.win);
-        this.win.gDBView.addColumnHandler(id, col.handler);
+        // Copy the handler so its window property can be different when
+        // the same handler ref is passed to multiple instances of customcol
+        const handlerCopy = Object.assign({}, col.handler);
+        handlerCopy.init(this.win);
+        this.win.gDBView.addColumnHandler(id, handlerCopy);
       } catch (ex) {
         console.error(ex);
         throw new Error(`Cannot add column handler for column ID ${id}`);
