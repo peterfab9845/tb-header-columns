@@ -8,10 +8,12 @@ const columnOverlay = {
   init(win) {
     this.win = win;
     this.addColumns(win);
+    Services.obs.addObserver(this, "MsgCreateDBView", false);
   },
 
   destroy() {
     this.destroyColumns();
+    Services.obs.removeObserver(this, "MsgCreateDBView");
   },
 
   observe(aMsgFolder, aTopic, aData) {
@@ -60,7 +62,6 @@ const columnOverlay = {
     for (const col of columnList) {
       this.addColumn(win, col.id, col.label, col.tooltip);
     }
-    Services.obs.addObserver(this, "MsgCreateDBView", false);
   },
 
   destroyColumn(columnId) {
@@ -73,7 +74,6 @@ const columnOverlay = {
     for (const col of columnList) {
       this.destroyColumn(col.id);
     }
-    Services.obs.removeObserver(this, "MsgCreateDBView");
   },
 };
 
