@@ -16,15 +16,12 @@ var managedColumns = new Map(); // list of columns to be added
 
 // Construct a column handler for the given header name
 function ColumnHandler(parseTree, sortNumeric) {
-  // access to the window object
-  this.init = function(win) { this.win = win; };
-
-  // Required (?) custom column handler functions, per
+  // Required (?) custom column handler functions are according to
   // https://searchfox.org/comm-central/source/mailnews/base/public/nsIMsgCustomColumnHandler.idl
   // Not sure if the requirement is up to date on what actually gets called,
-  // but it seems to work fine without some of the "required" ones anyway
+  // but it seems to work fine without some of the "required" ones anyway.
 
-  // functions directly from nsIMsgCustomColumnHandler
+  // Required functions directly from nsIMsgCustomColumnHandler
   this.getSortStringForRow = function(aHdr) { return this.getText(aHdr); };
   this.getSortLongForRow = function(aHdr) {
     // Map float to long, preserving order. This takes advantage of the fact
@@ -65,7 +62,7 @@ function ColumnHandler(parseTree, sortNumeric) {
   };
   this.isString = function() { return !sortNumeric; };
 
-  // functions inherited from nsITreeView
+  // Required functions inherited from nsITreeView
   this.getRowProperties = function(index) { return ""; };
   this.getCellProperties = function(row, col) { return ""; };
   this.getImageSrc = function(row, col) { return ""; };
@@ -79,7 +76,8 @@ function ColumnHandler(parseTree, sortNumeric) {
   this.cycleCell = function(row, col) {};
   this.isEditable = function(row, col) { return false; };
 
-  // local functions
+  // Local functions, not called by Thunderbird
+  this.init = function(win) { this.win = win; };
   this.isDummy = function(row) { return (this.win.gDBView.getFlagsAt(row) & MSG_VIEW_FLAG_DUMMY) != 0; };
   this.getText = function(aHdr) {
     return this.parse(parseTree, aHdr);
