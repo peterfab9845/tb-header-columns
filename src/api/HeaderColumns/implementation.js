@@ -174,14 +174,14 @@ var HeaderColumns = class extends ExtensionCommon.ExtensionAPI {
 };
 
 function paint(win) {
-  win.HeaderColumns = {};
-  Services.scriptloader.loadSubScript(extension.getURL("api/HeaderColumns/customcol.js"), win.HeaderColumns);
-  win.HeaderColumns.managedColumns = managedColumns;
-  win.HeaderColumns.HeaderColumnsView.init(win);
+  win.CustomColumns = {};
+  Services.scriptloader.loadSubScript(extension.getURL("api/HeaderColumns/customcol.js"), win.CustomColumns);
+  win.CustomColumns.managedColumns = managedColumns;
+  win.CustomColumns.CustomColumnsView.init(win);
 }
 
 function unpaint(win) {
-  win.HeaderColumns.HeaderColumnsView.destroy();
-  delete win.HeaderColumns;
+  win.CustomColumns.CustomColumnsView.destroy();
+  delete win.CustomColumns;
 }
 

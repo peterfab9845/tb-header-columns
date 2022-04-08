@@ -83,7 +83,7 @@ const columnOverlay = {
   },
 };
 
-var HeaderColumnsView = {
+var CustomColumnsView = {
   init(win) {
     this.win = win;
     columnOverlay.init(win);
