@@ -17,6 +17,8 @@ const columnOverlay = {
   },
 
   observe(aMsgFolder, aTopic, aData) {
+    // Register the column handlers to be used by the column elements.
+    // No need to remove old handlers here; they can just be overwritten.
     for (const col of columnList) {
       try {
         col.handler.init(this.win);
@@ -28,8 +30,11 @@ const columnOverlay = {
     }
   },
 
+  // Add a column element to the tree. This is just the visual element, the
+  // handlers are added in observe().
   addColumn(win, columnId, columnLabel, columnTooltip) {
-    if (win.document.getElementById(columnId)) return;
+    // remove an old column if it already exists
+    this.destroyColumn(columnId);
 
     const treeCol = win.document.createXULElement("treecol");
     treeCol.setAttribute("id", columnId);
@@ -64,6 +69,7 @@ const columnOverlay = {
     }
   },
 
+  // Remove a column element from the tree.
   destroyColumn(columnId) {
     const treeCol = this.win.document.getElementById(columnId);
     if (!treeCol) return;
