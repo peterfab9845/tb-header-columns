@@ -158,6 +158,11 @@ var HeaderColumns = class extends ExtensionCommon.ExtensionAPI {
             "tooltip": tooltip,
             "handler": handler
           });
+          Services.obs.notifyObservers(null, "CustomColumns:column-updated", id);
+        },
+        unregisterColumn(id) {
+          managedColumns.delete(id);
+          Services.obs.notifyObservers(null, "CustomColumns:column-updated", id);
         }
       }
     }

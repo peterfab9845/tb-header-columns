@@ -159,6 +159,19 @@
             "description": "True if the header should be sorted numerically."
           }
         ]
+      },
+      {
+        "name": "unregisterColumn",
+        "type": "function",
+        "description": "Unregisters a custom column",
+        "async": false,
+        "parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "The ID of the column element to unregister."
+          }
+        ]
       }
     ]
   }
