@@ -8,16 +8,14 @@ const columnOverlay = {
   init(win) {
     this.win = win;
     this.addColumns();
-    Services.obs.addObserver(this, "MsgCreateDBView", false);
+    observers.createDBView.register();
+    observers.updateColumn.register();
   },
 
   destroy() {
     this.destroyColumns();
-    Services.obs.removeObserver(this, "MsgCreateDBView");
-  },
-
-  observe(aMsgFolder, aTopic, aData) {
-    this.registerHandlers();
+    observers.createDBView.unregister();
+    observers.updateColumn.unregister();
   },
 
   registerHandlers() {
@@ -86,6 +84,39 @@ const columnOverlay = {
   destroyColumns() {
     for (const id of managedColumns.keys()) {
       this.destroyColumn(id);
+    }
+  },
+};
+
+var observers = {
+  createDBView: {
+    observe(aMsgFolder, aTopic, aData) {
+      columnOverlay.registerHandlers();
+    },
+    register() {
+      Services.obs.addObserver(this, "MsgCreateDBView", false);
+    },
+    unregister() {
+      Services.obs.removeObserver(this, "MsgCreateDBView");
+    }
+  },
+  updateColumn: {
+    observe(aSubject, aTopic, aData) {
+      if (managedColumns.has(aData)) {
+        // new or updated column
+        let col = managedColumns.get(aData);
+        columnOverlay.addColumn(aData, col.label, col.tooltip);
+      } else {
+        // deleted column
+        columnOverlay.destroyColumn(aData);
+      }
+      columnOverlay.registerHandlers();
+    },
+    register() {
+      Services.obs.addObserver(this, "CustomColumns:column-updated", false);
+    },
+    unregister() {
+      Services.obs.removeObserver(this, "CustomColumns:column-updated");
     }
   },
 };
