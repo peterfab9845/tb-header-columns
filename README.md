@@ -1,4 +1,4 @@
-# X-Original-To column
+# X-Original-To Column
 This addon adds a new column called X-Original-To in the message list which shows the original recipient address of the message (the contents of the X-Original-To header).
 This can be useful for systems with catch-all email addresses.
 
