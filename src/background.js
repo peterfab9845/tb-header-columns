@@ -1,6 +1,9 @@
 "use strict";
 
 async function init() {
+  // create window listener for custom columns
+  messenger.HeaderColumns.addWindowListener();
+
   // set up customDBHeaders
   await addCustomDBHeader("X-Original-To");
   messenger.ex_runtime.onDisable.addListener(removeCustomDBHeader.bind(null, "X-Original-To"));
@@ -11,9 +14,6 @@ async function init() {
     "headerName": "X-Original-To"
   };
   messenger.HeaderColumns.registerColumn("originalToColumn", "X-Original-To", "Sort by X-Original-To header", originalToTree, false);
-
-  // set up window listener
-  messenger.HeaderColumns.addWindowListener(); // this has to come last, TODO make runtime add/remove possible
 }
 init();
 
