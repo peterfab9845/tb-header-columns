@@ -102,6 +102,7 @@ var observers = {
   },
   updateColumn: {
     observe(aSubject, aTopic, aData) {
+      // add or remove the referenced column element
       if (managedColumns.has(aData)) {
         // new or updated column
         let col = managedColumns.get(aData);
@@ -110,6 +111,8 @@ var observers = {
         // deleted column
         columnOverlay.destroyColumn(aData);
       }
+
+      // register the new handler
       columnOverlay.registerHandlers();
     },
     register() {
@@ -128,7 +131,6 @@ var CustomColumnsView = {
 
     // Usually the column handler is added when the window loads.
     // In our setup it's added later and we may miss the first notification.
-    // So we fire one ourselves.
     if (win.gDBView && win.document.documentElement.getAttribute("windowtype") == "mail:3pane") {
       columnOverlay.registerHandlers();
     }
