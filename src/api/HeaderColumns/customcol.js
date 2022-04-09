@@ -17,6 +17,10 @@ const columnOverlay = {
   },
 
   observe(aMsgFolder, aTopic, aData) {
+    this.registerHandlers();
+  },
+
+  registerHandlers() {
     // Register the column handlers to be used by the column elements.
     // No need to remove old handlers here; they can just be overwritten.
     for (const [id, col] of managedColumns) {
@@ -95,7 +99,7 @@ var CustomColumnsView = {
     // In our setup it's added later and we may miss the first notification.
     // So we fire one ourselves.
     if (win.gDBView && win.document.documentElement.getAttribute("windowtype") == "mail:3pane") {
-      Services.obs.notifyObservers(null, "MsgCreateDBView");
+      columnOverlay.registerHandlers();
     }
   },
 
