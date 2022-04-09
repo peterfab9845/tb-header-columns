@@ -7,7 +7,7 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 const columnOverlay = {
   init(win) {
     this.win = win;
-    this.addColumns(win);
+    this.addColumns();
     Services.obs.addObserver(this, "MsgCreateDBView", false);
   },
 
@@ -39,11 +39,11 @@ const columnOverlay = {
 
   // Add a column element to the tree. This is just the visual element, the
   // handlers are added in observe().
-  addColumn(win, columnId, columnLabel, columnTooltip) {
+  addColumn(columnId, columnLabel, columnTooltip) {
     // remove an old column if it already exists
     this.destroyColumn(columnId);
 
-    const treeCol = win.document.createXULElement("treecol");
+    const treeCol = this.win.document.createXULElement("treecol");
     treeCol.setAttribute("id", columnId);
     treeCol.setAttribute("persist", "hidden ordinal sortDirection width");
     treeCol.setAttribute("flex", "2");
@@ -51,7 +51,7 @@ const columnOverlay = {
     treeCol.setAttribute("label", columnLabel);
     treeCol.setAttribute("tooltiptext", columnTooltip);
 
-    const threadCols = win.document.getElementById("threadCols");
+    const threadCols = this.win.document.getElementById("threadCols");
     threadCols.appendChild(treeCol);
 
     // Restore persisted attributes.
@@ -70,9 +70,9 @@ const columnOverlay = {
     }
   },
 
-  addColumns(win) {
+  addColumns() {
     for (const [id, col] of managedColumns) {
-      this.addColumn(win, id, col.label, col.tooltip);
+      this.addColumn(id, col.label, col.tooltip);
     }
   },
 
