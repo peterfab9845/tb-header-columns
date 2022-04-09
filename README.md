@@ -12,5 +12,5 @@ However, there will be no information for existing messages unless the database 
 Note that rebuilding a folder will reset its column layout and sort order.
 
 ## Credits
-This addon source is based on [Full address column](https://github.com/lkosson/full-address-column/) by Łukasz Kosson, which in turn is based on [Sender Frequency](https://addons.thunderbird.net/en-us/thunderbird/addon/sender-frequency/) by Jorg K.
+This addon uses the [HeaderColumns](https://github.com/peterfab9845/header-columns-api), [LegacyPrefs](https://github.com/thundernest/addon-developer-support/tree/master/auxiliary-apis/LegacyPrefs), and [ex_runtime](https://github.com/rsjtdrjgfuzkfg/thunderbird-experiments/tree/master/experiments/runtime) experiment APIs.
 
