@@ -19,6 +19,12 @@ const columnOverlay = {
   },
 
   registerHandlers() {
+    // If there's no gDBView, we can't do anything yet. Wait to get called again
+    // by the MsgCreateDBView observer.
+    if (!this.win?.gDBView) {
+      return;
+    }
+
     // Register the column handlers to be used by the column elements.
     // No need to remove old handlers here; they can just be overwritten.
     for (const [id, col] of managedColumns) {
