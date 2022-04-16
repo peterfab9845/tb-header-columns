@@ -30,11 +30,11 @@
       }
     },
     "HeaderColumns": {
-      "schema": "api/HeaderColumns/schema.json",
+      "schema": "api/header-columns-api/schema.json",
       "parent": {
         "scopes": ["addon_parent"],
         "paths": [["HeaderColumns"]],
-        "script": "api/HeaderColumns/implementation.js",
+        "script": "api/header-columns-api/implementation.js",
         "events": ["startup"]
       }
     }
