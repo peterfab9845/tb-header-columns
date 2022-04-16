@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
-  "name": "X-Original-To Column",
-  "description": "Adds a column for the X-Original-To header to message list panel",
-  "version": "0.2.1",
+  "name": "Header Columns",
+  "description": "Adds user-customizable columns to the message list panel",
+  "version": "0.0.1",
   "author": "Peter Fabinski",
-  "homepage_url": "https://github.com/peterfab9845/original-to-column",
+  "homepage_url": "https://github.com/peterfab9845/tb-header-columns",
   "applications": {
     "gecko": {
-      "id": "original-to-column@peterfab.com",
+      "id": "tb-header-columns@peterfab.com",
       "strict_min_version": "68.0a1",
       "strict_max_version": "91.*"
     }

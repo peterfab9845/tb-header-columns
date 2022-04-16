@@ -5,15 +5,40 @@ async function init() {
   messenger.HeaderColumns.addWindowListener();
 
   // set up customDBHeaders
-  await addCustomDBHeader("X-Original-To");
-  messenger.ex_runtime.onDisable.addListener(removeCustomDBHeader.bind(null, "X-Original-To"));
+  // TODO
+  //await addCustomDBHeader("X-Original-To");
+  //messenger.ex_runtime.onDisable.addListener(removeCustomDBHeader.bind(null, "X-Original-To"));
 
   // add the column
-  let originalToTree = {
-    "nodeType": "header",
-    "headerName": "X-Original-To"
+  let testTree = {
+    "nodeType": "first",
+    "children": [
+      {
+        "nodeType": "regex",
+        "pattern": "@.*",
+        "flags": "",
+        "replacement": "",
+        "child": {
+          "nodeType": "first",
+          "children": [
+            {
+              "nodeType": "header",
+              "headerName": "X-Delivered-to"
+            },
+            {
+              "nodeType": "header",
+              "headerName": "X-Original-To"
+            }
+          ]
+        }
+      },
+      {
+        "nodeType": "literal",
+        "literalString": "Unknown"
+      }
+    ]
   };
-  messenger.HeaderColumns.registerColumn("originalToColumn", "X-Original-To", "Sort by X-Original-To header", originalToTree, false);
+  messenger.HeaderColumns.registerColumn("headerColumn-test", "test", "Sort by test", testTree, false);
 }
 init();
 
