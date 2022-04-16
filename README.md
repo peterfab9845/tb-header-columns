@@ -11,6 +11,9 @@ The new column can be selected as soon as the addon has been installed, and all 
 However, there will be no information for existing messages unless the database is rebuilt for the desired folders (Folder Properties > Repair Folder).
 Note that rebuilding a folder will reset its column layout and sort order.
 
+## Cloning
+Note that this repo uses git submodules, so it needs to be cloned using the `--recurse-submodules` option. If this is skipped, then `git submodule update --init` can be used after the fact.
+
 ## Credits
 This addon uses the [HeaderColumns](https://github.com/peterfab9845/header-columns-api), [LegacyPrefs](https://github.com/thundernest/addon-developer-support/tree/master/auxiliary-apis/LegacyPrefs), and [ex_runtime](https://github.com/rsjtdrjgfuzkfg/thunderbird-experiments/tree/master/experiments/runtime) experiment APIs.
 
