@@ -8,7 +8,7 @@ async function init() {
 }
 
 function onStorageChanged(changes, areaName) {
-  if (areaName == "sync" && "tree" in changes) {
+  if (areaName === "sync" && "tree" in changes) {
     let tree = changes.tree.newValue;
     if (tree) {
       registerTestTree(tree);

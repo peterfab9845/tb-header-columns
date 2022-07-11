@@ -64,7 +64,7 @@ function resetStorage() {
 }
 
 function onStorageChanged(changes, areaName) {
-  if (areaName == "sync" && "tree" in changes) {
+  if (areaName === "sync" && "tree" in changes) {
     showTree(changes.tree.newValue);
   }
 }
