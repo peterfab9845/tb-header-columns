@@ -1,5 +1,6 @@
 support multiple columns
 pull the schema from API, maybe validate trees with editor?
+allow user to specify the join str for 'concat'
 https://github.com/json-editor/json-editor
 https://caldwell.github.io/renderjson/
 
