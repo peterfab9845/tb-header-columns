@@ -31,6 +31,9 @@ function registerTestTree(tree) {
     browser.mailTabs.removeColumn("headerColumn");
     addedColumn = false;
   }
+
+  browser.mailTabs.onCellEntriesShown.addListener(updateCellEntries); // async
+
   browser.mailTabs.addColumn("headerColumn", {
     "sortable": true,
     "name": "Header Column",
@@ -38,8 +41,6 @@ function registerTestTree(tree) {
     "resizable": true
   });
   addedColumn = true;
-
-  browser.mailTabs.onCellEntriesShown.addListener(updateCellEntries); // async
 }
 
 async function updateCellEntries(columnId, entries) {
