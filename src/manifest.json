@@ -9,22 +9,13 @@
     "gecko": {
       "id": "tb-header-columns@peterfab.com",
       "strict_min_version": "68.0a1",
-      "strict_max_version": "102.*"
+      "strict_max_version": "*"
     }
   },
   "permissions": [
-    "storage"
+    "storage",
+    "messagesRead"
   ],
-  "experiment_apis": {
-    "HeaderColumns": {
-      "schema": "api/header-columns-api/schema.json",
-      "parent": {
-        "scopes": ["addon_parent"],
-        "paths": [["HeaderColumns"]],
-        "script": "api/header-columns-api/implementation.js"
-      }
-    }
-  },
   "background": {
     "scripts": ["background.js"]
   },

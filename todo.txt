@@ -1,3 +1,4 @@
+support multiple columns
 https://github.com/json-editor/json-editor
 https://caldwell.github.io/renderjson/
 
