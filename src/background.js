@@ -16,8 +16,9 @@ function onStorageChanged(changes, areaName) {
     let tree = changes.tree.newValue;
     if (tree) {
       parseTree = tree;
-      // this is too aggressive, only re-register if column definition changed (currently not user-controlled).
-      // fix it with multiple columns
+      // this is too aggressive, only re-register if column definition changed (unnecessary for tree only).
+      // TODO support multiple columns
+      // TODO support configuring column properties
       registerTestTree(tree);
     }
   }
@@ -86,7 +87,7 @@ function parse(node, headers) {
         return parse(node.child, headers).replace(node.target, node.replacement);
       }
     case "regex":
-      let re = new RegExp(node.pattern, node.flags); // potential errors
+      let re = new RegExp(node.pattern, node.flags); // TODO handle errors
       return parse(node.child, headers).replace(re, node.replacement);
     case "concat":
       return node.children.map((child) => parse(child, headers)).join('');
